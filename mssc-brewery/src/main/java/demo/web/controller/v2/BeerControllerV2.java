@@ -1,4 +1,4 @@
-package demo.web.controller;
+package demo.web.controller.v2;
 
 import java.util.UUID;
 
@@ -15,28 +15,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import demo.web.model.BeerPojo;
-import demo.web.service.BeerService;
+import demo.web.model.v2.BeerPojoV2;
+import demo.web.service.v2.BeerServiceV2;
 
-@Deprecated
-@RequestMapping("api/v1/beer")
+@RequestMapping("api/v2/beer")
 @RestController
-public class BeerController {
+public class BeerControllerV2 {
 
-	private final BeerService beerService;
+	private final BeerServiceV2 beerService;
 
-	public BeerController(BeerService beerService) {
+	public BeerControllerV2(BeerServiceV2 beerService) {
 		this.beerService = beerService;
 	}
 
 	@GetMapping("/{beerId}")
-	public ResponseEntity<BeerPojo> getBeer(@PathVariable("beerId") UUID beerId) {
+	public ResponseEntity<BeerPojoV2> getBeer(@PathVariable("beerId") UUID beerId) {
 		return new ResponseEntity<>(beerService.getBeerById(beerId), HttpStatus.OK);
 
 	}
 
 	@PostMapping // create new beer
-	public ResponseEntity<Object> handlePost(@RequestBody BeerPojo newBeer) {
+	public ResponseEntity<Object> handlePost(@RequestBody BeerPojoV2 newBeer) {
 
 		System.out.println(newBeer);
 		HttpHeaders httpheader = new HttpHeaders();
@@ -46,7 +45,7 @@ public class BeerController {
 	}
 
 	@PutMapping("/{beerId}")
-	public ResponseEntity<Object> handlePut(@PathVariable("beerId") UUID beerId, @RequestBody BeerPojo updateBeer) {
+	public ResponseEntity<Object> handlePut(@PathVariable("beerId") UUID beerId, @RequestBody BeerPojoV2 updateBeer) {
 		System.out.println(updateBeer);
 		beerService.updateBeer(beerId, updateBeer);
 		HttpHeaders httpheader = new HttpHeaders();
